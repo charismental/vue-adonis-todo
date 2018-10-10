@@ -6,7 +6,7 @@ const AuthorizationService = use('App/Services/AuthorizationService')
 class ProjectController {
   async index ({ auth }) {
     const user = await auth.getUser()
-    return user.projects().fetch() // await??
+    return await user.projects().fetch()
   }
 
   async create ({ auth, request }) {
@@ -26,6 +26,16 @@ class ProjectController {
     const project = await Project.find(id)
     AuthorizationService.verifyPermission(project, user)
     await project.delete()
+    return project
+  }
+
+  async update ({ auth, request, params }) {
+    const user = await auth.getUser()
+    const { id } = params
+    const project = await Project.find(id)
+    AuthorizationService.verifyPermission(project, user)
+    project.merge(request.only('title'))
+    await project.save()
     return project
   }
 }

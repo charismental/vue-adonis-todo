@@ -14,8 +14,8 @@
         })"
         @onEdit="setEditMode(project)"
         @onSave="saveProject(project)"
-        @onDelete="deleteProject(project)" />
-    
+        @onDelete="deleteProject(project)"
+        @onClick="projectClicked(project)" />
     </div>
     <CreateRecord
       placeholder="My project name..."
@@ -45,16 +45,24 @@ export default {
     ]),
   },
   methods: {
+    projectClicked(project) {
+      this.setCurrentProject(project);
+      this.fetchTasksForProject(project);
+    },
     ...mapMutations('projects', [
       'setNewProjectName',
       'setEditMode',
       'setProjectTitle',
+      'setCurrentProject',
     ]),
     ...mapActions('projects', [
       'createProject',
       'fetchProjects',
       'saveProject',
       'deleteProject',
+    ]),
+    ...mapActions('tasks', [
+      'fetchTasksForProject',
     ]),
   },
 };

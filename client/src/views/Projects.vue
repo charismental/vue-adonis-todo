@@ -4,10 +4,8 @@
       <v-flex xs4>
         <Projects></Projects>
       </v-flex>
-      <v-flex xs8 class="pl-4">
-        <panel title="Tasks">
-          <h1>Test Content</h1>
-        </panel>
+      <v-flex xs8 class="pl-4" v-if="currentProject">
+        <Tasks></Tasks>
       </v-flex>
     </v-layout>
   </v-container>
@@ -15,12 +13,15 @@
 
 <script>
 import Projects from '@/components/Projects.vue';
-import { mapGetters } from 'vuex';
+// eslint-disable-next-line
+import Tasks from '@/components/Tasks.vue';
+import { mapGetters, mapState } from 'vuex';
 import router from '../router';
 
 export default {
   components: {
     Projects,
+    Tasks,
   },
   mounted() {
     if (!this.isLoggedIn) {
@@ -28,6 +29,9 @@ export default {
     }
   },
   computed: {
+    ...mapState('projects', [
+      'currentProject',
+    ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
     ]),

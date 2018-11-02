@@ -4,7 +4,8 @@
       <slot></slot>
       <span
         @click="$emit('onClick')"
-        v-if="!isEditMode">
+        v-if="!isEditMode"
+        :class="{ completed: completed }">
         {{ title }}
       </span>
       <v-text-field
@@ -38,10 +39,17 @@ export default {
     'isEditMode',
     'title',
     'record',
+    'completed',
+    'isCurrentProject',
   ],
 };
 </script>
 
-<style>
-
+<style scoped>
+.completed {
+  text-decoration: line-through;
+}
+/* .underlined {
+  text-decoration: underline;
+} */
 </style>

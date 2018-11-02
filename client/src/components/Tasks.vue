@@ -1,5 +1,5 @@
 <template>
-  <panel title="Tasks">
+  <panel :title="currentProject.title + ' - Tasks'">
     <div
       class="task mt-2"
       v-for="task in tasks"
@@ -8,6 +8,7 @@
       <EditableRecord
         :isEditMode="task.isEditMode"
         :title="task.description"
+        :completed="task.completed"
         @onInput="setTaskDescription({
           task,
           description: $event,
@@ -47,6 +48,9 @@ export default {
       'tasks',
       'newTaskName',
     ]),
+    ...mapState('projects', [
+      'currentProject',
+    ]),
   },
   methods: {
     ...mapActions('tasks', [
@@ -69,7 +73,7 @@ export default {
 </script>
 
 <style scoped>
-.tasks {
-  font-size: 18px;
+.task {
+  font-size: 24px;
 }
 </style>
